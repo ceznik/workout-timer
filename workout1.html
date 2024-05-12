@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>10 Minute Workout Timer</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        #textBlock {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        #timer {
+            font-size: 18px;
+            color: red;
+        }
+    </style>
+</head>
+<body class="container">
+    <div id="textBlock" class="jumbotron">
+        <p id="content">Let's Go!!</p>
+        <p id="timer"></p>
+    </div>
+    <button id="startButton" class="btn btn-success">Start</button>
+    <button id="stopButton" class="btn btn-danger">Stop</button>
+    <button id="resetButton" class="btn btn-warning">Reset</button>
+
+    <script>
+        var textBlocks = ["Jumping Jacks", "Air Skip Rope", "High Knees", "Mountain Climbers", "Alternating Reverse Lunge", "Prisoner Squat", "Half Burpee", "Butt Kicks", "Plank Step Out", "Plank Shoulder Touch"];
+        var currentIndex = 0;
+        var intervalId;
+        var timer = 60;
+
+        $('#startButton').click(function() {
+            $('#content').text(textBlocks[0]).fadeIn(500);
+            $('#timer').text("Time remaining: " + timer + " seconds");
+            intervalId = setInterval(function() {
+                timer--;
+                $('#timer').text("Time remaining: " + timer + " seconds");
+                if (timer <= 0) {
+                    $('#content').fadeOut(500, function() {
+                        $(this).text(textBlocks[currentIndex]).fadeIn(500);
+                    });
+                    currentIndex = (currentIndex + 1) % textBlocks.length;
+                    timer = 60;
+                }
+            }, 1000); // 1 second intervals
+        });
+
+        $('#stopButton').click(function() {
+            clearInterval(intervalId);
+        });
+
+        $('#resetButton').click(function() {
+            currentIndex = 0;
+            timer = 60;
+            $('#content').fadeOut(500, function() {
+                $(this).text('');
+            });
+            $('#timer').text('');
+            clearInterval(intervalId);
+        });
+    </script>
+</body>
+</html>
